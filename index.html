@@ -76,6 +76,82 @@
     ym(106871318, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
 </script>
 <noscript><div><img src="https://mc.yandex.ru/watch/106871318" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-<!-- /Yandex.Metrika counter -->      
+<!-- /Yandex.Metrika counter -->
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // 1. Изменение фона шапки при скролле
+  const header = document.querySelector('header');
+  
+  function updateHeader() {
+    if (window.scrollY > 50) {
+      header.style.backgroundColor = 'rgba(15, 23, 42, 0.95)';
+      header.style.backdropFilter = 'blur(12px)';
+      header.style.borderBottomColor = 'rgba(255, 255, 255, 0.1)';
+    } else {
+      header.style.backgroundColor = 'transparent';
+      header.style.backdropFilter = 'none';
+      header.style.borderBottomColor = 'transparent';
+    }
+  }
+  
+  window.addEventListener('scroll', updateHeader);
+  updateHeader(); // Инициализация
+  
+  // 2. Плавная прокрутка к секциям при клике на навигацию
+  document.querySelectorAll('a[href^="#"], button[onclick]').forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      const href = this.getAttribute('href');
+      if (href && href.startsWith('#')) {
+        e.preventDefault();
+        const target = document.querySelector(href);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    });
+  });
+  
+  // 3. Обработка кликов на кнопки навигации в header
+  const navButtons = header.querySelectorAll('nav button');
+  navButtons.forEach(function(button, index) {
+    button.addEventListener('click', function() {
+      const sections = ['#problems', '#process', '#pricing', '#reviews'];
+      if (sections[index]) {
+        const target = document.querySelector(sections[index]);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    });
+  });
+  
+  // 4. Обработка кликов на кнопки "Вызвать мастера" и "Записаться онлайн"
+  document.querySelectorAll('button').forEach(function(button) {
+    const text = button.textContent.trim();
+    if (text.includes('Вызвать мастера') || text.includes('Записаться онлайн')) {
+      button.addEventListener('click', function() {
+        // Прокрутка к контактам или открытие модального окна
+        window.location.href = 'tel:+375291077757';
+      });
+    }
+  });
+  
+  // 5. Мобильное меню (если есть кнопка гамбургер)
+  const menuButton = document.querySelector('button svg.lucide-menu');
+  if (menuButton) {
+    const menuBtn = menuButton.closest('button');
+    const nav = document.querySelector('nav.hidden.md\\:flex');
+    
+    if (menuBtn && nav) {
+      menuBtn.addEventListener('click', function() {
+        nav.classList.toggle('hidden');
+        nav.classList.toggle('flex');
+      });
+    }
+  }
+});
+</script>
+      
 </body></html>
 
