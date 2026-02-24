@@ -1237,18 +1237,48 @@
                if (sections[index]) {
                  const target = document.querySelector(sections[index]);
                  if (target) {
-                   target.scrollIntoView({ behavior: 'smooth' });
+                   const headerHeight = 80;
+                   const targetPosition = target.offsetTop - headerHeight;
+                   window.scrollTo({
+                     top: targetPosition,
+                     behavior: 'smooth'
+                   });
                  }
                }
              });
            });
            
-           // 4. Обработка кликов на кнопки "Вызвать мастера" и "Записаться онлайн"
+           // 4. Обработка кликов на кнопки с телефоном
            document.querySelectorAll('button').forEach(function(button) {
              const text = button.textContent.trim();
-             if (text.includes('Вызвать мастера') || text.includes('Записаться онлайн')) {
-               button.addEventListener('click', function() {
-                 // Прокрутка к контактам или открытие модального окна
+             const hasPhoneIcon = button.querySelector('svg.lucide-phone');
+             
+             // Кнопки с иконкой телефона - звонок
+             if (hasPhoneIcon && (text.includes('Вызвать мастера') || text.includes('Записаться онлайн'))) {
+               button.addEventListener('click', function(e) {
+                 e.preventDefault();
+                 window.location.href = 'tel:+375291077757';
+               });
+             }
+             // Кнопка "Прайс-лист" - скролл к ценам
+             else if (text.includes('Прайс-лист')) {
+               button.addEventListener('click', function(e) {
+                 e.preventDefault();
+                 const target = document.querySelector('#pricing');
+                 if (target) {
+                   const headerHeight = 80;
+                   const targetPosition = target.offsetTop - headerHeight;
+                   window.scrollTo({
+                     top: targetPosition,
+                     behavior: 'smooth'
+                   });
+                 }
+               });
+             }
+             // Кнопки "Выбрать пакет" - звонок
+             else if (text.includes('Выбрать пакет')) {
+               button.addEventListener('click', function(e) {
+                 e.preventDefault();
                  window.location.href = 'tel:+375291077757';
                });
              }
